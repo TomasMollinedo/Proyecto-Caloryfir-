@@ -1,6 +1,5 @@
 from tkinter import *
 from PIL import Image, ImageTk
-import tkinter.font as tkFont
 
 root = Tk()
 root.geometry("1300x800")
@@ -205,5 +204,9 @@ indice.place(x=1210, y=315)
 
 cantidad = Entry(root, bg="grey80", state="readonly", width=67)
 cantidad.place(x=925, y=450)
+
+#-------------salir-------------
+salir = Button(root, text="Salir", width=7, fg="white", bg="#353534", command=root.destroy)
+salir.place(x=1305, y=40)
 
 root.mainloop()

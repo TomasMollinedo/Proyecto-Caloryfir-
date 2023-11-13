@@ -1,10 +1,12 @@
 from tkinter import *
 from PIL import Image, ImageTk
 
+#Crea la ventana, da dimensiones y el titulo
 root = Tk()
 root.geometry("1300x800")
 root.title("CaloryFit")
 
+#Agrega el fondo hecho en figma
 img = Image.open("Frame-final.jpg")
 new_img = img.resize((1540,850))
 render = ImageTk.PhotoImage(new_img)
@@ -14,6 +16,7 @@ img2.place(x=0, y=0)
 
 #-------------------------------------funciones-----------------------------
 
+#agrega la recomendacion si se selecciona que quiere ganar peso
 def imagen_subir():
     img = Image.open("subir.jpg")
     new_img = img.resize((450,100))
@@ -22,6 +25,7 @@ def imagen_subir():
     img2.image = render
     img2.place(x=924, y=550)
 
+#agrega la recomendacion si se selecciona que quiere mantener peso
 def imagen_mantener():
     img = Image.open("mantener.jpg")
     new_img = img.resize((450,100))
@@ -30,6 +34,7 @@ def imagen_mantener():
     img2.image = render
     img2.place(x=924, y=550)
 
+#agrega la recomendacion si se selecciona que quiere bajar peso
 def imagen_bajar():
     img = Image.open("bajar-valido.jpg")
     new_img = img.resize((450,100))
@@ -38,6 +43,7 @@ def imagen_bajar():
     img2.image = render
     img2.place(x=924, y=550)
 
+#Toma los datos del usuario y calcula las calorias de mantenimiento y el imc
 def calcula_mantenimiento():
     global peso
     global altura
@@ -69,13 +75,16 @@ def calcula_mantenimiento():
     
     return listareturn
 
-
+#Hace editable el entry que le mandemos, le agrega el valor que le pasamos y lo vuelve a poner readonly
 def introducir(var,numero):
     var.config(state="normal")
     var.delete(0, END)
     var.insert(0,numero)
     var.config(state="readonly")
 
+"""Se fija si el usuario selecciono si quiere ganar, mantener o perder peso
+en base a eso suma, resta calorias o simplemente no lo hace
+Ademas si el usuario quiere perder entre 0 y 10 kilos seran 300kcal, si quiere perder mas que eso seran 500"""
 def cal_adicionales():
     objetivo = valor_2.get()
     if objetivo == "ganancia de peso":
@@ -114,7 +123,7 @@ def cal_adicionales():
 
 
 
-
+#Ejecuta las otras funciones cuando el usuario le de a aceptar
 def aceptar():
     objetivo = valor_2.get()
     if objetivo == "ganancia de peso":
@@ -132,15 +141,18 @@ def aceptar():
 #---------------------------------------------------------------------------
 
 #--------inputs--------
-peso = Entry(root, bg="grey80", width=20)
+def solo_numeros(char):
+    return char.isdigit()
+
+peso = Entry(root, bg="grey80", width=20,validate="key", validatecommand=(root.register(solo_numeros), '%S'))
 peso.insert(0,0)
 peso.place(x=75,y=250)
 
-altura = Entry(root, bg="grey80", width=20)
+altura = Entry(root, bg="grey80", width=20,validate="key", validatecommand=(root.register(solo_numeros), '%S'))
 altura.insert(0,0)
 altura.place(x=322,y=250)
 
-edad = Entry(root, bg="grey80", width=20)
+edad = Entry(root, bg="grey80", width=20,validate="key", validatecommand=(root.register(solo_numeros), '%S'))
 edad.insert(0,0)
 edad.place(x=573,y=250)
 
@@ -158,13 +170,14 @@ objetivo_drop = OptionMenu(root, valor_2, *lista_objetivo)
 objetivo_drop.config(width=54)
 objetivo_drop.place(x=75, y=480)
 
-cuanto = Entry(root, bg="grey80", width=60)
+cuanto = Entry(root, bg="grey80", width=60,validate="key", validatecommand=(root.register(solo_numeros), '%S'))
 cuanto.insert(0,0)
 cuanto.place(x=75,y=590)
 
 aceptar = Button(root, text="Aceptar", width=10, command=aceptar)
 aceptar.place(x=220,y=730)
 
+#Superpone la imagen de mujeres
 def imagen_mujer():
     img = Image.open("mujer.jpg")
     new_img = img.resize((300,400))
@@ -173,6 +186,7 @@ def imagen_mujer():
     img2.image = render
     img2.place(x=500, y=315)
 
+#Superpone la imagen de hombres
 def imagen_hombre():
     img = Image.open("hombree.jpg")
     new_img = img.resize((300,400))
